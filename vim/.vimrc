@@ -1,15 +1,13 @@
 " Basic vimrc file 
 "
-" Maintainer: Michael Penhallegon <mpenhall@gmail.com>
-" Last change:	20 Aug 2018
+" Maintainer: Michael Penhallegon <mike@hematite.tech>
+" Last change:	03 Jan 2019
 "
 
 " Gvim settings
 colorscheme darkblue
 if has('gui_running')
   set guifont=Lucida_Console:h8
-  " Get the defaults that most users want.
-  source $VIMRUNTIME/defaults.vim
 endif
 
 " set history to 200 commands
@@ -28,11 +26,20 @@ set vb
 " tabstop = 4
 :set noet ci pi sts=0 sw=4 ts=4
 
+
 " turn on line number
 :set number
 
 " gets rid of tilde file
 :set nobackup
+
+" set shell to powershellco only if win32
+" turn on spellcheck
+if has("win32")
+:set shell=powershell
+:set spelllang=en
+:set spellfile=$HOME/Documents/vim/en.utf-8.add
+endif
 
 " highlight textwidth + 1 colum (where a EOL should go)
 :set colorcolumn=+1
@@ -43,6 +50,8 @@ if v:progname =~? "evim"
   finish
 endif
 
+" Get the defaults that most users want.
+source $VIMRUNTIME/defaults.vim
 
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead
@@ -82,6 +91,12 @@ endif " has("autocmd")
 " compatible.
 " The ! means the package won't be loaded right away but when plugins are
 " loaded during initialization.
-if has('syntax') && has('eval') && has("gui_running")
+if has('syntax') && has('eval')
   packadd! matchit
 endif
+
+" open split below, useful for opening :term correctly
+set splitbelow
+
+" set default sql syntax as postgresql
+let g:sql_type_default = 'pgsql'
